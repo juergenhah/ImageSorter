@@ -15,7 +15,7 @@ of the images.
 
 path of the image directory 
 
->workingImageDirectory = "/home/user/Pictures/testpictures"
+>workingImageDirectory = "/home/juergen/Pictures/California2014/400"
 
 Parses an image and returns the date stored in Exif part of the image.
 
@@ -28,10 +28,10 @@ Parses an image and returns the date stored in Exif part of the image.
 
 
 >exifDateTimeTest = do
->  maybeTime <- getExifDateTimeFromImage (workingImageDirectory ++ "/" ++ "P1000618.JPG")
+>  maybeTime <- getExifDateTimeFromImage (workingImageDirectory ++ "/" ++ "2014-07-06 09.01.38.jpg")
 >  case maybeTime of
 >    Nothing -> putStrLn "no time included in Exif part of image" 
->    Just dateTime ->  putStrLn $ showGregorian.localDay $ dateTime  
+>    Just dateTime ->  putStrLn $ show $ dateTime  
 
 
 Prints the date included into the Exif part of an image
@@ -51,7 +51,7 @@ included into the imageDirectory
 >printImageDates imageDirectory = do
 >  allFiles <- getDirectoryContents imageDirectory
 >  let jpegImages = filter (\i -> "JPG" `isSuffixOf` i || "jpg" `isSuffixOf` i) allFiles
->  mapM_ (getExifDateTimeFromImage imageDirectory) jpegImages
+>  mapM_ (printExifDate imageDirectory) jpegImages
 >  putStrLn "finished"
 
 >printTest = printImageDates workingImageDirectory
@@ -86,6 +86,8 @@ Creates subfolders according to the image dates of the included images in this f
 
 Copies the image into an folder that is named with the date found in the 
 Exif part. The folder must exist, after copying the old image is deleted.
+The image is renamed with the date and time according the Exif date time.
+Pattern for remaning: YYYY-MM-DD HH:MM:SS
 
 >imageCopyAndDelete ::Directory -> Image -> IO () 
 >imageCopyAndDelete imageDirectory image = do
@@ -93,7 +95,7 @@ Exif part. The folder must exist, after copying the old image is deleted.
 >  case maybeDateTime of
 >   Nothing -> putStrLn ("no time included in Exif part of image:" ++ image)
 >   Just dateTime -> do 
->       copyFile imagePath (imageDirectory++"/" ++ (showGregorian $ localDay dateTime)++"/"++ image ) 
+>       copyFile imagePath (imageDirectory++"/" ++ (showGregorian $ localDay dateTime)++"/"++ (show dateTime)++".jpg" ) 
 >       removeFile imagePath   
 >  where imagePath = imageDirectory ++ "/"++ image 
 
