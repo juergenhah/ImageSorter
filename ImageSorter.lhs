@@ -15,7 +15,7 @@ of the images.
 
 path of the image directory 
 
->workingImageDirectory = "/home/user/Pictures/test"
+>workingImageDirectory = "/home/juergen/Pictures/California2014/400/2014-07-06"
 
 Parses an image and returns the date stored in Exif part of the image.
 
@@ -28,7 +28,7 @@ Parses an image and returns the date stored in Exif part of the image.
 
 
 >exifDateTimeTest = do
->  maybeTime <- getExifDateTimeFromImage (workingImageDirectory ++ "/" ++ "2014-07-06 09.01.38.jpg")
+>  maybeTime <- getExifDateTimeFromImage (workingImageDirectory ++ "/" ++ "2014-07-06 09:01:38.jpg")
 >  case maybeTime of
 >    Nothing -> putStrLn "no time included in Exif part of image" 
 >    Just dateTime ->  putStrLn $ show $ dateTime  
@@ -66,8 +66,8 @@ Reads the Exif date of the image and creates a subfolder with this date.
 >   Just dateTime -> do
 >        let date = (showGregorian.localDay) dateTime
 >        let newDirectoryPath = imageDirectory ++ "/" ++ date
->        test<- doesDirectoryExist newDirectoryPath
->        if test then
+>        dirExists<- doesDirectoryExist newDirectoryPath
+>        if dirExists then
 >          return ()-- "directory exists already"
 >        else
 >          createDirectory newDirectoryPath
@@ -79,7 +79,7 @@ Creates subfolders according to the image dates of the included images in this f
 >  allFiles <- getDirectoryContents imageDirectory
 >  let jpegImages = filter (\i -> "JPG" `isSuffixOf` i || "jpg" `isSuffixOf` i) allFiles
 >  mapM_ (createDateDirectory imageDirectory) jpegImages
->  putStrLn "directory creating finished"
+>  putStrLn "directory creating completed"
 
 >createDirectoryTest = createDateDirectories workingImageDirectory
 
@@ -121,3 +121,5 @@ the images in the according subdirectory.
 >  putStrLn "process completed"
 
 >sortTest=sortImageDirectory workingImageDirectory
+
+
