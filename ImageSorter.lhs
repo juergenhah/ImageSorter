@@ -15,7 +15,7 @@ of the images.
 
 path of the image directory 
 
->workingImageDirectory = "/home/juergen/Pictures/California2014/400"
+>workingImageDirectory = "/home/user/Pictures/test"
 
 Parses an image and returns the date stored in Exif part of the image.
 
