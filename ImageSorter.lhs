@@ -1,5 +1,5 @@
-The module copies all files ending with "jpg" or "JPG" from an directory into subdirectories.
-Subdirectories are created according the dates included into the Exif part 
+The module copies all files ending with "jpg" or "JPG" from a directory into subdirectories.
+Subdirectories are created according to the dates included in the Exif part 
 of the images.
 
 >module ImageSorter (printImageDates,createDateDirectories,sortImageDirectory, Directory ) where
@@ -106,7 +106,7 @@ the date included into the Exif part and removes the image in the directory.
 >copyAndDeleteImages imageDirectory = do
 >  allFiles <- getDirectoryContents imageDirectory
 >  let jpegImages = filter (\i -> "JPG" `isSuffixOf` i || "jpg" `isSuffixOf` i) allFiles
->  contents <-mapM (imageCopyAndDelete imageDirectory) jpegImages
+>  mapM_ (imageCopyAndDelete imageDirectory) jpegImages
 >  putStrLn "copying and deleting completed"
 
 >copyADITest= copyAndDeleteImages workingImageDirectory
