@@ -23,7 +23,7 @@ Parses an image and returns the date stored in Exif part of the image.
 >getExifDateTimeFromImage image = do
 >  img <- ExifLib.parseFileExif image
 >  case img of
->   Right exifData -> return $ getDateTimeOriginal exifData 
+>   Right exifData -> return $ ExifLib.getDateTimeOriginal exifData 
 >   Left msg -> return Nothing
 
 
